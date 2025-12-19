@@ -1,0 +1,250 @@
+!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>首尔 & 釜山 · 跨年之旅</title>
+    
+    <!-- 分享卡片优化 (Open Graph) -->
+    <meta property="og:title" content="我们的韩国跨年之行">
+    <meta property="og:description" content="12.29-01.02 首尔与釜山的浪漫邂逅">
+    <meta property="og:type" content="website">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .active-date {
+            background-color: #4f46e5 !important;
+            color: white !important;
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+        }
+        .itinerary-content { display: none; }
+        .itinerary-content.active { display: block; animation: slideUp 0.4s ease-out; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        #toast {
+            visibility: hidden;
+            min-width: 200px;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(4px);
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 12px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 120px;
+            transform: translateX(-50%);
+            font-size: 14px;
+        }
+        #toast.show { visibility: visible; animation: fadeInOut 2s; }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            20%, 80% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div id="toast">已复制行程文字</div>
+
+    <div class="max-w-md mx-auto min-h-screen flex flex-col relative pb-32">
+        <!-- 顶部标题 -->
+        <header class="bg-white px-6 pt-10 pb-6 shadow-sm border-b border-slate-100">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-900 tracking-tight">首尔 & 釜山 · 跨年之旅</h1>
+                    <p class="text-slate-400 text-sm flex items-center mt-1">
+                        <i class="far fa-calendar-alt mr-2"></i> 2025.12.29 - 2026.01.02
+                    </p>
+                </div>
+                <button onclick="copyItinerary()" class="text-indigo-600 bg-indigo-50 w-10 h-10 rounded-full flex items-center justify-center active:scale-90 transition-transform">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- 日期导航 -->
+        <div class="bg-white sticky top-0 z-20 flex overflow-x-auto space-x-4 px-6 py-4 no-scrollbar border-b border-slate-50">
+            <button onclick="switchDay(0)" id="btn-0" class="date-btn active-date flex-shrink-0 flex flex-col items-center justify-center w-16 h-20 rounded-2xl transition-all duration-300 bg-slate-100 text-slate-400">
+                <span class="text-[10px] uppercase font-semibold">Dec</span>
+                <span class="text-xl font-bold leading-none mt-1">29</span>
+            </button>
+            <button onclick="switchDay(1)" id="btn-1" class="date-btn flex-shrink-0 flex flex-col items-center justify-center w-16 h-20 rounded-2xl transition-all duration-300 bg-slate-100 text-slate-400">
+                <span class="text-[10px] uppercase font-semibold">Dec</span>
+                <span class="text-xl font-bold leading-none mt-1">30</span>
+            </button>
+            <button onclick="switchDay(2)" id="btn-2" class="date-btn flex-shrink-0 flex flex-col items-center justify-center w-16 h-20 rounded-2xl transition-all duration-300 bg-slate-100 text-slate-400">
+                <span class="text-[10px] uppercase font-semibold">Dec</span>
+                <span class="text-xl font-bold leading-none mt-1">31</span>
+            </button>
+            <button onclick="switchDay(3)" id="btn-3" class="date-btn flex-shrink-0 flex flex-col items-center justify-center w-16 h-20 rounded-2xl transition-all duration-300 bg-slate-100 text-slate-400">
+                <span class="text-[10px] uppercase font-semibold">Jan</span>
+                <span class="text-xl font-bold leading-none mt-1">01</span>
+            </button>
+            <button onclick="switchDay(4)" id="btn-4" class="date-btn flex-shrink-0 flex flex-col items-center justify-center w-16 h-20 rounded-2xl transition-all duration-300 bg-slate-100 text-slate-400">
+                <span class="text-[10px] uppercase font-semibold">Jan</span>
+                <span class="text-xl font-bold leading-none mt-1">02</span>
+            </button>
+        </div>
+
+        <!-- 内容区域 -->
+        <main id="main-content" class="px-6 pt-6 flex-1">
+            <!-- Day 1 -->
+            <div id="day-0" class="itinerary-content active" data-summary="12.29 首尔：抵达仁川机场，前往圣水洞感受工业风，晚间打卡东大门DDP。">
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold text-slate-800">Day 1: 首尔冬日序幕</h2>
+                    <p class="text-indigo-600 text-sm font-medium mt-1 tracking-wide">SEOUL · 圣水洞 · 东大门</p>
+                </div>
+                <div class="space-y-8 relative border-l-2 border-slate-200 ml-4 pl-8">
+                    <div class="relative">
+                        <span class="absolute -left-[41px] top-0 bg-indigo-50 text-indigo-600 w-8 h-8 rounded-full flex items-center justify-center ring-4 ring-slate-50">
+                            <i class="fas fa-plane text-xs"></i>
+                        </span>
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]"><i class="far fa-clock mr-1"></i> 14:00 ARRIVAL</span>
+                            <h3 class="font-bold text-slate-800 mt-1">仁川国际机场</h3>
+                            <p class="text-slate-500 text-xs mt-2 leading-relaxed text-justify">领取 K-Pass，开启浪漫跨年之旅。</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[41px] top-0 bg-indigo-50 text-indigo-600 w-8 h-8 rounded-full flex items-center justify-center ring-4 ring-slate-50">
+                            <i class="fas fa-coffee text-xs"></i>
+                        </span>
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]"><i class="far fa-clock mr-1"></i> 16:30 CAFE TIME</span>
+                            <h3 class="font-bold text-slate-800 mt-1">圣水洞咖啡街</h3>
+                            <p class="text-slate-500 text-xs mt-2 leading-relaxed text-justify">冬日的首尔布鲁克林，这里的咖啡和设计店值得一逛。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 2 -->
+            <div id="day-1" class="itinerary-content" data-summary="12.30 釜山：乘坐KTX奔向大海，打卡海云台胶囊火车，欣赏海边落日。">
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold text-slate-800">Day 2: 奔向大海 - 釜山</h2>
+                    <p class="text-blue-600 text-sm font-medium mt-1 tracking-wide">BUSAN · KTX · 海云台</p>
+                </div>
+                <div class="space-y-8 relative border-l-2 border-blue-100 ml-4 pl-8">
+                    <div class="relative">
+                        <span class="absolute -left-[41px] top-0 bg-blue-50 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center ring-4 ring-slate-50">
+                            <i class="fas fa-train text-xs"></i>
+                        </span>
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]"><i class="far fa-clock mr-1"></i> 09:00 KTX</span>
+                            <h3 class="font-bold text-slate-800 mt-1">首尔站</h3>
+                            <p class="text-slate-500 text-xs mt-2 leading-relaxed text-justify">在车站买一份铁路便当，前往海港城市釜山。</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[41px] top-0 bg-blue-50 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center ring-4 ring-slate-50">
+                            <i class="fas fa-camera text-xs"></i>
+                        </span>
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]"><i class="far fa-clock mr-1"></i> 18:00 SUNSET</span>
+                            <h3 class="font-bold text-slate-800 mt-1">海云台海滩</h3>
+                            <p class="text-slate-500 text-xs mt-2 leading-relaxed text-justify">吹着海风迎接夕阳，冬天的海云台有着独特的静谧。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 其他天数摘要 -->
+            <div id="day-2" class="itinerary-content" data-summary="12.31 跨年：甘川洞寻找小王子，在广安里大桥下倒数迎接新年。">
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold text-slate-800">Day 3: 釜山跨年盛典</h2>
+                    <p class="text-slate-500 text-sm mt-1 tracking-wide">COUNTDOWN · 甘川洞 · 广安里</p>
+                </div>
+                <div class="p-10 text-center bg-white rounded-3xl border border-dashed border-slate-200">
+                    <div class="w-16 h-16 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-glass-cheers text-2xl"></i>
+                    </div>
+                    <p class="text-slate-500 text-sm leading-relaxed font-medium">在广安里大桥欣赏无人机表演<br>与成千上万人一起倒数迎接 2026！</p>
+                </div>
+            </div>
+            
+            <div id="day-3" class="itinerary-content" data-summary="01.01 祈福：海东龙宫寺日出祈愿，带着好运返回首尔。">
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold text-slate-800">Day 4: 新年第一束光</h2>
+                </div>
+                <div class="p-10 text-center bg-white rounded-3xl border border-dashed border-slate-200">
+                    <div class="w-16 h-16 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-sun text-2xl"></i>
+                    </div>
+                    <p class="text-slate-500 text-sm leading-relaxed font-medium">海东龙宫寺看海上日出<br>开启能量满满的一年。</p>
+                </div>
+            </div>
+
+            <div id="day-4" class="itinerary-content" data-summary="01.02 返程：明洞最后的购物狂欢，圆满结束跨年之旅。">
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold text-slate-800">Day 5: 最终补货 & 返程</h2>
+                </div>
+                <div class="p-10 text-center bg-white rounded-3xl border border-dashed border-slate-200">
+                    <div class="w-16 h-16 bg-slate-50 text-slate-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shopping-bag text-2xl"></i>
+                    </div>
+                    <p class="text-slate-500 text-sm leading-relaxed font-medium">明洞/免税店最后的补货时间<br>带着满满的回忆（和行李）去机场。</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- 悬浮操作区 -->
+        <div class="fixed bottom-8 left-0 right-0 px-6 flex justify-center pointer-events-none">
+            <button onclick="window.print()" class="pointer-events-auto bg-slate-900 text-white px-10 py-4 rounded-full font-bold shadow-2xl flex items-center space-x-3 active:scale-95 transition-all">
+                <i class="fas fa-file-pdf"></i>
+                <span>保存行程单</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentDay = 0;
+
+        function switchDay(index) {
+            currentDay = index;
+            document.querySelectorAll('.date-btn').forEach(btn => btn.classList.remove('active-date'));
+            document.getElementById('btn-' + index).classList.add('active-date');
+
+            document.querySelectorAll('.itinerary-content').forEach(content => content.classList.remove('active'));
+            document.getElementById('day-' + index).classList.add('active');
+            
+            document.getElementById('btn-' + index).scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+
+        function copyItinerary() {
+            const summary = document.getElementById('day-' + currentDay).getAttribute('data-summary');
+            const text = `📍 我的韩国跨年行程 - Day ${currentDay + 1}\n${summary}\n\n期待这场旅途 ✨`;
+            
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast();
+            } catch (err) {
+                console.error('无法复制', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.className = "show";
+            setTimeout(() => { toast.className = ""; }, 2000);
+        }
+    </script>
+</body>
+</html>
